@@ -1,18 +1,21 @@
 "use client";
-
 import { useForm } from "react-hook-form";
 import { sendEmail } from "@/app/utils/send-email";
 
 export type FormData = {
   name: string;
-  email: string;
-  message: string;
+  to: string;
+  body: string;
 };
 
 function Contact() {
   const { register, handleSubmit } = useForm<FormData>();
 
   function onSubmit(data: FormData) {
+    if (!data.to || !data.name || !data.body) {
+      alert("Please fill all fields");
+      return;
+    }
     sendEmail(data);
   }
 
@@ -51,7 +54,7 @@ function Contact() {
               type="email"
               placeholder="example@domain.com"
               className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 font-medium  text-gray-700 outline-none focus:border-purple-500 focus:shadow-md"
-              {...register("email", { required: true })}
+              {...register("to", { required: true })}
             />
           </div>
           <div className="mb-5">
@@ -65,7 +68,7 @@ function Contact() {
               rows={4}
               placeholder="Type your message"
               className="w-full resize-none rounded-md border border-gray-300 bg-white   py-3 px-6  font-medium text-gray-700 outline-none focus:border-purple-500 focus:shadow-md"
-              {...register("message", { required: true })}
+              {...register("body", { required: true })}
             ></textarea>
           </div>
           <div className="flex justify-center">
