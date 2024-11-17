@@ -7,6 +7,10 @@ export function sendEmail(data: FormData) {
   fetch(apiEndpoint + "/mail", {
     method: "POST",
     body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `${process.env.NEXT_PUBLIC_BEARER}`,
+    }
   })
     .then((res) => res.json())
     .then((response) => {
